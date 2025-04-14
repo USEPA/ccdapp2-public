@@ -1,0 +1,48 @@
+# ===================================================================
+# Spring Boot configuration for the "dev" profile.
+#
+# This configuration overrides the application.yml file.
+#
+# ===================================================================
+
+spring:
+  application:
+    name: ccdapp2
+  # MONGODB (MongoProperties)
+  profiles:
+    active: local
+  #    include: # additional configuration profile options such as swagger etc.
+  #    include: # additional configuration profile options such as swagger etc.
+  jackson:
+    serialization:
+      indent-output: true
+  data:
+    mongodb:
+      #      uri: mongodb://app_api:W!%26EK_%23rQZaLn2dv@ccte-mongodb-dev.epa.gov/dev_datamart_comptox?authSource=admin
+      #      auto-index-creation: true;
+      password: 6#d%7Hwy6uLeGDvR
+      authentication-database: admin
+      database: ccd_epa
+      username: app_ccd
+      host: ccte-mongodb-dev.epa.gov
+
+# Logging
+logging:
+  level:
+    gov.epa.ccte.api.*: debug
+    org.springframework: debug
+    org.springframework.data.mongodb.core.MongoTemplate:  debug
+
+# server
+server:
+  servlet:
+    context-path: /
+  #port: 9400
+
+
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================

@@ -1,0 +1,50 @@
+# ===================================================================
+# Spring Boot configuration for the "prod" profile.
+#
+# This configuration overrides the application.yml file.
+#
+# ===================================================================
+
+
+spring:
+  application:
+    name: ccdapp2
+  # MONGODB (MongoProperties)
+  profiles:
+    active: prod
+  #    include: # additional configuration profile options such as swagger etc.
+  jackson:
+    serialization:
+      indent-output: true
+  data:
+    mongodb:
+      #      database: substance
+      password: ${CCD_MONGO_PASSWORD}
+      authentication-database: ${CCD_MONGO_AUTH}
+      database: ${CCD_MONGO_DB}
+      username: ${CCD_MONGO_USERNAME}
+      host: ${CCD_MONGO_HOST}
+      #      auto-index-creation: true;
+
+# Logging
+logging:
+  level:
+    gov.epa.ccte.api.*: info
+    org.springframework: info
+    org.springframework.data.mongodb.core.MongoTemplate: info
+
+# server
+server:
+  servlet:
+    context-path: /
+  #port: 9400
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
+    min-response-size: 1024
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================

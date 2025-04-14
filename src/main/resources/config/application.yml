@@ -1,0 +1,132 @@
+# ===================================================================
+# Spring Boot configuration.
+#
+# This configuration will be overridden by the Spring profile you use,
+# for example application-dev.yml if you use the "dev" profile.
+#
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+
+server:
+  servlet:
+    context-path: /
+    session:
+      cookie:
+        http-only: true
+  port: 9400
+  shutdown: graceful # this will allow to finish currently processing requrst before shutdown. THis is very important for cloud/Kube environment
+
+eureka:
+  client:
+    register-with-eureka: false
+    enabled: false
+
+
+# following setting are for dealing with 404 error
+spring:
+  application:
+    name: ccdapp2
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+
+  jackson:
+    serialization:
+      indent_output: true
+  data:
+    rest:
+      return-body-on-create: false
+      return-body-on-update: false
+      base-path: / #--
+      default-media-type: application/hal+json
+      default-page-size: 20
+  lifecycle:
+    timeout-per-shutdown-phase: 20s # this important for kube/cloud environment
+  web:
+    resources:
+      add-mappings: true
+
+#Metrics related configurations
+management:
+  health:
+    db:
+      enabled: false
+    diskspace:
+      enabled: false
+    defaults:
+      enabled: false
+  endpoint:
+    metrics:
+      enabled: false
+    prometheus:
+      enabled: false
+    health:
+      show-details: always
+      enabled: false
+    loggers:
+      enabled: false
+    info:
+      enabled: false
+  endpoints:
+    web:
+      base-path: /actuator # default is actuator - now you can access /api/manage/health
+      exposure:
+        include: info, health
+        # include: info, health, env, refresh, loggers
+        #include: prometheus, info, health, env, refresh
+  #        include: "*" # this is not good for security
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  # showing more information for git in /info --
+  info:
+    git:
+      mode: full
+
+## Spring Boot Actuator Info Endpoint Customization
+info:
+
+  # static properties
+  app:
+    name: ${spring.application.name}
+    description: microservice for chemical list.
+    profiles: ${spring.profiles.active}
+
+  # build properties from maven
+  build:
+    groupId: @project.groupId@
+    artifact: @project.artifactId@
+    name: @project.name@
+    version: @project.version@
+
+  # environment variables
+  env:
+    java:
+      vendor: ${java.specification.vendor}
+      vm-name: ${java.vm.name}
+      runtime-version: ${java.runtime.version}
+
+
+# ===================================================================
+# Application specific properties
+# Add your own application properties here, see the ApplicationProperties class
+# to have type-safe configuration
+#
+# ===================================================================
+
+# application:
+application:
+  doc-host-replacement: ccte-api-ccd-dev.epa.gov
+  doc-host-port: 443
+  doc-host-http-protocol: https
+  start-port: 9300
+  end-port: 9350
+  server-port: 9400 # for non-cloud profiles
+
